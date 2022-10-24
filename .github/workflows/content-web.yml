@@ -7,8 +7,8 @@ on:
     - main
     paths:
     - 'content-web/**'
-    # - web.deployment.yml
-    # - web.service.yml
+    - web.deployment.yml
+    - web.service.yml
 
   # Configure workflow to also support triggering manually
   workflow_dispatch:
@@ -16,10 +16,10 @@ on:
 # Environment variables are defined so that they can be used throughout the job definitions.
 env:
   imageRepository: 'content-web'
-  resourceGroupName: 'fabmedical-771119'
-  clusterName: 'fabmedical-771119'
-  containerRegistryName: 'fabmedical771119'
-  containerRegistry: 'fabmedical771119.azurecr.io'
+  resourceGroupName: 'fabmedical-769373'
+  clusterName: 'fabmedical-769373'
+  containerRegistryName: 'fabmedical769373'
+  containerRegistry: 'fabmedical769373.azurecr.io'
   dockerfilePath: './content-web'
   tag: '${{ github.run_id  }}'
 
@@ -68,15 +68,15 @@ jobs:
         secret-name: ingress-demo-secret
         namespace: ingress-demo
         arguments: --force true
-        
-    # - name: Deploy to AKS
-    #   uses: azure/k8s-deploy@v1
-    #   with:
-    #     manifests: |
-    #       web.deployment.yml
-    #       web.service.yml
-    #     images: |
-    #       ${{ env.containerRegistry }}.azurecr.io/${{ env.imageRepository }}:${{ env.tag }}
-    #     imagepullsecrets: |
-    #       ingress-demo-secret
-    #     namespace: ingress-demo
+
+    - name: Deploy to AKS
+      uses: azure/k8s-deploy@v1
+      with:
+          manifests: |
+            web.deployment.yml
+            web.service.yml
+          images: |
+            ${{ env.containerRegistry }}/${{ env.imageRepository }}:${{ env.tag }}
+          imagepullsecrets: |
+            ingress-demo-secret
+          namespace: ingress-demo
