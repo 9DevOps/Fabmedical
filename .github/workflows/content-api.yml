@@ -1,3 +1,4 @@
+#test
 name: content-api
 
 # This workflow is triggered on push to the 'content-web' directory of the  main branch of the repository
